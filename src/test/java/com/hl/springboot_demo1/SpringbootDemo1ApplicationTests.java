@@ -13,4 +13,9 @@ public class SpringbootDemo1ApplicationTests {
     public void contextLoads() {
     }
 
+    @Test
+    public void eightQueenProblem(){
+
+    }
+
 }
