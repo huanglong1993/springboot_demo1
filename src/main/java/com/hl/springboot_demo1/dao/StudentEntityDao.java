@@ -1,6 +1,6 @@
 package com.hl.springboot_demo1.dao;
 
-import com.hl.springboot_demo1.entity.Student;
+import com.hl.springboot_demo1.entity.StudentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  * @Version 1.0.0
  */
 @Repository
-public interface StudentDao extends JpaRepository<Student, Integer>, JpaSpecificationExecutor<Student> {
+public interface StudentEntityDao extends JpaRepository<StudentEntity, Integer>, JpaSpecificationExecutor<StudentEntity> {
 }

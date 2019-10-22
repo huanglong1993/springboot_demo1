@@ -6,6 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -18,8 +19,9 @@ import java.util.Date;
 @Table(name = "t_student")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class Student {
+public class StudentEntity implements Serializable {
 
+    private static final long serialVersionUID = 523807193731303425L;
     @Id
     @GeneratedValue
     @Column(name = "id")

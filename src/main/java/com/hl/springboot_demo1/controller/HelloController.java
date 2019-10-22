@@ -1,16 +1,19 @@
 package com.hl.springboot_demo1.controller;
 
 import com.hl.springboot_demo1.configuration.GirlProperties;
-import com.hl.springboot_demo1.dao.StudentDao;
-import com.hl.springboot_demo1.entity.Student;
+import com.hl.springboot_demo1.dao.ClassInfoEntityDao;
+import com.hl.springboot_demo1.dao.StudentEntityDao;
+import com.hl.springboot_demo1.entity.ClassInfoEntity;
+import com.hl.springboot_demo1.entity.StudentEntity;
 import com.hl.springboot_demo1.form.AddStuForm;
+import com.hl.springboot_demo1.vo.ResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,31 +33,42 @@ public class HelloController {
     private String content;
 
     @Autowired
-    StudentDao studentDao;
+    StudentEntityDao studentDao;
+
+    @Autowired
+    ClassInfoEntityDao classInfoEntityDao;
 
     @Autowired
     GirlProperties girlProperties;
 
     @GetMapping(value = {"/hello","hi"})
     @ApiOperation(value = "测试")
-    public String sayHello(){
-        return name + "Hello World!" + content + "===" +girlProperties.getAge();
+    public ResponseVO<String> sayHello(){
+        String result = name + "Hello World!" + content + "===" +girlProperties.getAge();
+        return ResponseVO.successResponse(result);
     }
 
     @RequestMapping(value = "/addStu", method = RequestMethod.POST)
     @ApiOperation(value = "新增学生")
-    public String addStu(@RequestBody AddStuForm form){
-        Student stu = new Student();
+    public ResponseVO<String> addStu(@Valid @RequestBody AddStuForm form){
+        StudentEntity stu = new StudentEntity();
         stu.setAge(form.getAge());
         stu.setName(form.getName());
         stu.setSex(form.getSex());
         studentDao.saveAndFlush(stu);
-        return "success";
+        return ResponseVO.successResponse("新增成功");
     }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有学生")
-    public List<Student> findAll(){
-        return studentDao.findAll();
+    public ResponseVO<List<StudentEntity>> findAll(){
+        throw new RuntimeException("查询学生信息出错");
+//        return ResponseVO.successResponse(studentDao.findAll());
+    }
+
+    @PostMapping("/queryClassInfo")
+    @ApiOperation(value = "查询课程信息")
+    public ResponseVO<List<ClassInfoEntity>> queryClassInfos(Integer id){
+        return ResponseVO.successResponse(classInfoEntityDao.findAll());
     }
 }
